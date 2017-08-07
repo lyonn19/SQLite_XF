@@ -47,8 +47,8 @@
     <Compile Include="Model\Person.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModel\PersonViewModel.cs" />
-    <Compile Include="View\PersonDetailPage.xaml.cs">
-      <DependentUpon>PersonDetailPage.xaml</DependentUpon>
+    <Compile Include="View\PersonAddPage.xaml.cs">
+      <DependentUpon>PersonAddPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\PersonListPage.xaml.cs">
       <DependentUpon>PersonListPage.xaml</DependentUpon>
@@ -105,7 +105,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="View\PersonDetailPage.xaml">
+    <EmbeddedResource Include="View\PersonAddPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
       <SubType>Designer</SubType>
     </EmbeddedResource>

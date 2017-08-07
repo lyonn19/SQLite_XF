@@ -1,77 +1,79 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using SQLite_XF.DAO;
+using SQLite_XF.Model;
+using Xamarin.Forms;
 
 namespace SQLite_XF.ViewModel
 {
     public class PersonViewModel: INotifyPropertyChanged
     {
+        public ObservableCollection<Person> PersonList { get; set; }
 
-        private string _myname;
-        public string Name
+        public PersonViewModel()
         {
-            get { return _myname; }
-            set
-            {
-                _myname = value;
-                OnPropertyChanged();
-            }
+            PersonList = new ObservableCollection<Person>();
         }
-        private string _lastName;
-        public string LastName
-        {
-            get { return _lastName; }
-            set
-            {
-                _lastName = value;
-                OnPropertyChanged();
-            }
-        }
-        private int _age;
-        public int Age
-        {
-            get { return _age; }
-            set
-            {
-                _age = value;
-                OnPropertyChanged();
-            }
 
-        }
-        private string _sex;
-        public string Sex
+        public async Task PersonModel()
         {
-            get { return _sex; }
+            await PersonDao.Instance.GetAllPeopleAsync();
+            // for para llenar el obsercoll.
+        }
+
+        private Person _selectedPerson;
+        public Person SelectedPerson
+        {
+            get { return _selectedPerson; }
             set
             {
-                _sex = value;
+                _selectedPerson = value;
                 OnPropertyChanged();
             }
         }
-        private decimal _annualIncome;
-        public decimal AnnualIncome
+
+
+        Command _getPersonCommand;
+        public Command GetPersonCommand
         {
-            get { return _annualIncome; }
+            get
+            {
+                return _getPersonCommand ?? (_getPersonCommand = new Command(async () => await GetPersonAsync(), () => !IsBusy));
+            }
+        }
+        public async Task GetPersonAsync()
+        {
+            if (IsBusy)
+                return;
+            try
+            {
+                IsBusy = true;
+                PersonList.Clear();
+                await PersonModel();
+            }
+            finally
+            {
+                IsBusy = false;
+            }
+        }
+
+        private bool _isBusy;
+        public bool IsBusy
+        {
+            get { return _isBusy; }
             set
             {
-                _annualIncome = value;
+                _isBusy = value;
                 OnPropertyChanged();
             }
         }
-        private bool _isPublicP;
-        public bool IsPublicPerson
-        {
-            get { return _isPublicP; }
-            set
-            {
-                _isPublicP = value;
-                OnPropertyChanged();
-            }
-        }
+
         public event PropertyChangedEventHandler PropertyChanged;
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {

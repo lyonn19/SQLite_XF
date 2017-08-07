@@ -133,10 +133,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="FileAccessHelper.cs" />
     <Compile Include="MainActivity.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SqLiteDroid.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
