@@ -45,7 +45,7 @@ namespace SQLite_XF.Droid
                 //ReadWriteStream(s, writeStream);
                 #endregion
                 #region For New DB
-                //File.Create(path);
+                File.Create(path);
                 #endregion
             }
             //var plat = new SQLitePlatformAndroid();

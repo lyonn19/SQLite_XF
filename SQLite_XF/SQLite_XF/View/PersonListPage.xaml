@@ -2,23 +2,20 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:viewModel="clr-namespace:SQLite_XF.ViewModel;assembly=SQLite_XF"
-             x:Class="SQLite_XF.View.PersonListPage">
-    <ContentPage.BindingContext>
+             x:Class="SQLite_XF.View.PersonListPage"
+             Title="Personas">
+    <!--<ContentPage.BindingContext>
         <viewModel:PersonViewModel/>
-    </ContentPage.BindingContext>
+    </ContentPage.BindingContext>-->
     <ContentPage.ToolbarItems>
-        <ToolbarItem x:Name="Contact" Icon="add.png" Clicked="Person_OnClicked" />
+        <ToolbarItem x:Name="Contact" Text="Add" Clicked="Person_OnClicked" />
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <StackLayout BackgroundColor="Transparent" Padding="20">
             <ListView x:Name="ListViewContacts" ItemsSource="{Binding PersonList}" 
                       ItemTapped="Handle_ItemTapped" 
                       BackgroundColor="Transparent"
-                      SelectedItem="{Binding SelectedPerson}" 
-                      VerticalOptions="FillAndExpand"
-                      IsPullToRefreshEnabled="False"
-                      IsRefreshing="{Binding IsBusy}"
-                      RefreshCommand="{Binding GetPersonCommand}">
+                      VerticalOptions="FillAndExpand">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
@@ -26,7 +23,6 @@
                                 <Label Text="{Binding Id}" IsVisible="False"/>
                                 <Label Text="{Binding Name}" Margin="10,0,0,0" TextColor="Black" VerticalTextAlignment="Center"/>
                                 <Label Text="{Binding LastName}" TextColor="Black" VerticalTextAlignment="Center"/>
-                                <Image Source="ic_action_edit.png" Margin="0,0,10,0" HeightRequest="15" WidthRequest="15" HorizontalOptions="EndAndExpand" VerticalOptions="Center"/>
                             </StackLayout>
                         </ViewCell>
                     </DataTemplate>

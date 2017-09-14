@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using SQLite_XF.DAO;
 using SQLite_XF.Model;
+using SQLite_XF.ViewModel;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -16,11 +17,7 @@ namespace SQLite_XF.View
         public PersonAddPage()
         {
             InitializeComponent();
-        }
-
-        private async void Button_OnClicked(object sender, EventArgs e)
-        {
-            await PersonDao.Instance.AddNewPersonAsync(new Person());
+            BindingContext = new PersonViewModel(this.Navigation);
         }
     }
 }

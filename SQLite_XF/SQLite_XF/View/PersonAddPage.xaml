@@ -1,8 +1,23 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="SQLite_XF.View.PersonAddPage">
+             xmlns:viewModel="clr-namespace:SQLite_XF.ViewModel;assembly=SQLite_XF"
+             x:Class="SQLite_XF.View.PersonAddPage"
+             Title="Registro">
+    <!--<ContentPage.BindingContext>
+        <viewModel:PersonViewModel/>
+    </ContentPage.BindingContext>-->
     <ContentPage.Content>
-        <Button Text="Add" Clicked="Button_OnClicked"></Button>
+        <StackLayout Padding="30">
+            <Label Text="Nombre"/>
+            <Entry x:Name="EntryName" Text="{Binding Name}"/>
+            <Label Text="Nombre"/>
+            <Entry x:Name="EntryLastName" Text="{Binding LastName}"/>
+            <Label Text="Fecha de Nacimiento"/>
+            <DatePicker x:Name="EntryAge" Date="{Binding BirthDateTime}" />
+            <Label Text="Persona Pública"/>
+            <Switch x:Name="SwitchPublic" IsToggled="{Binding Pep}"/>
+            <Button Text="Guardar" StyleClass="Primary" Command="{Binding AddPersonCommand}"/>
+        </StackLayout>
     </ContentPage.Content>
 </ContentPage>

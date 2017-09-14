@@ -13,7 +13,7 @@ namespace SQLite_XF
         {
             InitializeComponent();
 
-            MainPage = new SQLite_XF.MainPage();
+            MainPage = new NavigationPage(new View.PersonListPage());
         }
 
         protected override void OnStart()

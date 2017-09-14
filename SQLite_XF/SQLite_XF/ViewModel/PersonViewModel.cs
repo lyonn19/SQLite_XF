@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
 using System.Threading.Tasks;
 using SQLite_XF.DAO;
 using SQLite_XF.Model;
@@ -14,18 +11,37 @@ namespace SQLite_XF.ViewModel
 {
     public class PersonViewModel: INotifyPropertyChanged
     {
-        public ObservableCollection<Person> PersonList { get; set; }
-
-        public PersonViewModel()
+        private INavigation _navigation; // HERE
+        public PersonViewModel(INavigation navigation)
         {
             PersonList = new ObservableCollection<Person>();
+            _navigation = navigation; // AND HERE
         }
-
-        public async Task PersonModel()
+        #region Funcionalidades
+        public async Task FillPersonModel()
         {
-            await PersonDao.Instance.GetAllPeopleAsync();
-            // for para llenar el obsercoll.
+            var listEnumerable = await PersonDao.Instance.GetAllPeopleAsync();
+            foreach (var pPerson in listEnumerable)
+            {
+                PersonList.Add(pPerson);
+            }
         }
+        private async Task AddPerson()
+        {
+            var newPerson = new Person()
+            {
+                Name = Name,
+                LastName = LastName,
+                BirthDateTime = BirthDateTime,
+                IsPublicPerson = Pep
+            };
+            await PersonDao.Instance.AddNewPersonAsync(newPerson);
+
+            await _navigation.PopAsync(false);
+        }
+        #endregion
+        #region Propiedades
+        public ObservableCollection<Person> PersonList { get; set; }
 
         private Person _selectedPerson;
         public Person SelectedPerson
@@ -38,7 +54,71 @@ namespace SQLite_XF.ViewModel
             }
         }
 
+        private string _name;
+        public string Name
+        {
+            get { return _name; }
+            set
+            {
+                _name = value;
+                OnPropertyChanged();
+            }
+        }
 
+        private string _lastname;
+        public string LastName
+        {
+            get { return _lastname; }
+            set
+            {
+                _lastname = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private DateTime _selecteDateTime;
+        public DateTime SelecteDateTime
+        {
+            get { return _selecteDateTime; }
+            set
+            {
+                _selecteDateTime = value;
+                OnPropertyChanged();
+            }
+        }
+        private DateTime _birthDateTime;
+        public DateTime BirthDateTime
+        {
+            get { return _birthDateTime; }
+            set
+            {
+                _birthDateTime = value;
+                OnPropertyChanged();
+            }
+        }
+        private bool _pep;
+        public bool Pep
+        {
+            get { return _pep; }
+            set
+            {
+                _pep = value;
+                OnPropertyChanged();
+            }
+        }
+        private bool _isBusy;
+        public bool IsBusy
+        {
+            get { return _isBusy; }
+            set
+            {
+                _isBusy = value;
+                OnPropertyChanged();
+            }
+        }
+
+        #endregion
+        #region Comandos
         Command _getPersonCommand;
         public Command GetPersonCommand
         {
@@ -55,29 +135,42 @@ namespace SQLite_XF.ViewModel
             {
                 IsBusy = true;
                 PersonList.Clear();
-                await PersonModel();
+                await FillPersonModel();
             }
             finally
             {
                 IsBusy = false;
             }
         }
-
-        private bool _isBusy;
-        public bool IsBusy
+        private Command _addPersonCommand;
+        public Command AddPersonCommand
         {
-            get { return _isBusy; }
-            set
+            get
             {
-                _isBusy = value;
-                OnPropertyChanged();
+                return _addPersonCommand ?? (_addPersonCommand = new Command(async () => await AddPersonAsync(), () => !IsBusy));
             }
         }
-
+        public async Task AddPersonAsync()
+        {
+            if (IsBusy)
+                return;
+            try
+            {
+                IsBusy = true;
+                await AddPerson();
+            }
+            finally
+            {
+                IsBusy = false;
+            }
+        }
+        #endregion
+        #region Notificador Prop
         public event PropertyChangedEventHandler PropertyChanged;
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+        #endregion
     }
 }

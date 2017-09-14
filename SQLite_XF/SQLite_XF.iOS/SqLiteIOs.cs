@@ -10,9 +10,6 @@ namespace SQLite_XF.iOS
 {
     public class SqliteService : ISqLite
     {
-        public SqliteService()
-        {
-        }
         #region ISQLite implementation in iOS
 
         public SQLiteAsyncConnection GetConnection()
@@ -20,7 +17,6 @@ namespace SQLite_XF.iOS
             const string sqliteFilename = "myapp.db3";
             var documentsPath = Environment.GetFolderPath(Environment.SpecialFolder.Personal); // Documents folder
             var libraryPath = Path.Combine(documentsPath, "..", "Library"); // Library folder
-            //const string libraryPath = "/Users/fermovalcan/Library/Developer/";
             var path = Path.Combine(libraryPath, sqliteFilename);
 
             // This is where we copy in the prepopulated database
@@ -29,13 +25,13 @@ namespace SQLite_XF.iOS
             {
                 #region For Existing
 
-                File.Copy(sqliteFilename, path);
+                //File.Copy(sqliteFilename, path);
 
                 #endregion
 
                 #region For New DB
 
-                //File.Create(path);
+                File.Create(path);
 
                 #endregion
             }

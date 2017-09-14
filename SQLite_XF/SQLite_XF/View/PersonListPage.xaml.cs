@@ -13,10 +13,17 @@ namespace SQLite_XF.View
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class PersonListPage : ContentPage
     {
+        private PersonViewModel personViewModel;
         public PersonListPage()
         {
             InitializeComponent();
-            BindingContext = new PersonViewModel();
+            BindingContext = personViewModel = new PersonViewModel(this.Navigation);
+        }
+
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+            personViewModel.GetPersonCommand.Execute(false);
         }
 
         private async void Person_OnClicked(object sender, EventArgs e)

@@ -10,10 +10,10 @@ namespace SQLite_XF.DAO
 {
     public class BaseDatabase
     {
-        protected SQLiteAsyncConnection _dbConn;
+        protected SQLiteAsyncConnection DbConn;
         public BaseDatabase()
         {
-            _dbConn = Xamarin.Forms.DependencyService.Get<ISqLite>().GetConnection();
+            DbConn = Xamarin.Forms.DependencyService.Get<ISqLite>().GetConnection();
         }
     }
 }
