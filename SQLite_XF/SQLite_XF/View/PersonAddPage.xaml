@@ -11,7 +11,7 @@
         <StackLayout Padding="30">
             <Label Text="Nombre"/>
             <Entry x:Name="EntryName" Text="{Binding Name}"/>
-            <Label Text="Nombre"/>
+            <Label Text="Apellidos"/>
             <Entry x:Name="EntryLastName" Text="{Binding LastName}"/>
             <Label Text="Fecha de Nacimiento"/>
             <DatePicker x:Name="EntryAge" Date="{Binding BirthDateTime}" />
